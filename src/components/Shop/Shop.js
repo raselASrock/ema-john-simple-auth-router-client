@@ -8,15 +8,19 @@ import './Shop.css';
 
 /* 
 1. count,
-2. per page,
-3. page number,
+2. per page(size): 10,
+3. page numberCurrent page,
 4. 
 
 */
 
 const Shop = () => {
-    const {products} = useLoaderData();
+    const {products, count} = useLoaderData();
     const [cart, setCart] = useState([]);
+    const [page, setPage] = useState(0);
+    const [size,setSize] = useState(10);
+
+    const pages = Math.ceil(count / size);
 
     const clearCart = () =>{
         setCart([]);
@@ -72,6 +76,18 @@ const Shop = () => {
                         <button>Review Order</button>
                     </Link>
                 </Cart>
+            </div>
+            <div className="pagination">
+                <p>Currently Selected Page: {page}</p>
+                {
+                    [...Array(pages).keys()].map(number => <button
+                        key={number}
+                        className = {page === number && 'selected'}
+                        onClick = {() => setPage(number)}
+                    >
+                        {number}
+                    </button>)
+                }
             </div>
         </div>
     );
